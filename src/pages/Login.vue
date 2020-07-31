@@ -40,18 +40,26 @@
                   </template>
                 </q-input>
 
-                <!-- <q-toggle label="Remember me." :value="false" /> -->
-
                 <div>
-                  <q-btn no-caps label="Đăng nhập" type="submit" color="primary" />
                   <q-btn
+                    dense
+                    glossy
+                    no-caps
+                    class="q-px-xs"
+                    icon="fas fa-sign-in-alt"
+                    label="Đăng nhập"
+                    type="submit"
+                    color="primary"
+                  />
+                  <q-btn
+                    dense
+                    flat
                     no-caps
                     @click="redirectRegistration"
                     label="Đăng ký tài khoản mới"
                     type="button"
                     color="primary"
-                    flat
-                    class="q-ml-sm"
+                    class="q-ml-sm q-px-xs"
                   />
                 </div>
               </q-form>
@@ -72,8 +80,8 @@ export default {
   data() {
     return {
       request: {
-        email: "admin@gmail.com",
-        password: "123456"
+        email: "hoangnguyenit98@gmail.com",
+        password: "12345678"
       }
     };
   },
@@ -81,9 +89,9 @@ export default {
   methods: {
     async submitForm() {
       let response = await this.$store.dispatch("auth/acLogin", this.request);
-      if (response.code == HTTP_CODES.CREATED) {
+      if (response.code == HTTP_CODES.SUCCESS) {
         this.notifySuccess(response.message);
-        return this.redirect({ name: "login" });
+        return this.redirect({ name: "home" });
       }
       this.notifyFaild(response.message);
     },

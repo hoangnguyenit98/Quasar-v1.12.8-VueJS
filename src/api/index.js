@@ -15,15 +15,14 @@ export async function callApi(url, method, params = null, data = null, headers =
         params,
         data,
         withCredentials: true
-    }).then((response) => {
-        console.log('success');
-        console.log(response);
-        return response.data;
-    }).catch((err) => {
-        console.log('faild');
-        console.log(err);
-        return err;
     });
     Loading.hide();
-    return response;
+
+    console.log(response);
+
+    if (response.status == 200) {
+        return response.data;
+    }
+
+    return { code: 500 }
 }

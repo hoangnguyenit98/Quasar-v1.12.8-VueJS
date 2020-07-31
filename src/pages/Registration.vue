@@ -75,14 +75,24 @@
                   :rules="[ val=> $v.request.password_confirmation.sameAs || 'Hai mật khẩu chưa khớp nhau.' ]"
                 />
                 <div>
-                  <q-btn no-caps label="Đăng ký" type="submit" color="primary" />
                   <q-btn
+                    dense
+                    glossy
+                    no-caps
+                    icon="far fa-registered"
+                    label="Đăng ký"
+                    type="submit"
+                    class="q-px-xs"
+                    color="primary"
+                  />
+                  <q-btn
+                    dense
+                    flat
                     no-caps
                     label="Quay lại trang đăng nhập"
                     @click="redirectLogin"
-                    type="reset"
+                    type="button"
                     color="primary"
-                    flat
                     class="q-ml-sm"
                   />
                 </div>

@@ -9,7 +9,7 @@
         <q-btn class="q-pa-xs" flat size="sm" round dense icon="fas fa-bars">
           <q-menu transition-show="scale" transition-hide="scale">
             <q-list style="min-width: 200px">
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup @click="showProfile">
                 <q-item-section avatar>
                   <q-icon size="xs" color="grey-7" name="fas fa-id-badge" />
                 </q-item-section>
@@ -21,7 +21,7 @@
                 </q-item-section>
                 <q-item-section>Làm mới token</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup @click="changePassword">
                 <q-item-section avatar>
                   <q-icon size="xs" color="grey-7" name="fas fa-unlock-alt" />
                 </q-item-section>
@@ -48,13 +48,15 @@
 
 <script>
 import { HTTP_CODES } from "../api/endpoint";
+import ChangePasswordComponent from "../components/ChangePasswordComponent";
+import ProfileComponent from "../components/ProfileComponent";
+
 export default {
   name: "MainLayout",
 
   methods: {
     async logout() {
       let response = await this.$store.dispatch("auth/acLogout");
-
       if (response.code == HTTP_CODES.SUCCESS) {
         return this.redirect({ name: "login" });
       }
@@ -62,11 +64,18 @@ export default {
 
     async refreshToken() {
       let response = await this.$store.dispatch("auth/acRefreshToken");
-
       if (response.code == HTTP_CODES.SUCCESS) {
         return this.notifySuccess(response.message);
       }
       this.notifyFaild(response.message);
+    },
+
+    changePassword() {
+      this.$q.dialog({ component: ChangePasswordComponent, parent: this });
+    },
+
+    showProfile() {
+      this.$q.dialog({ component: ProfileComponent, parent: this });
     }
   }
 };
