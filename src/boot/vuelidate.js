@@ -1,5 +1,5 @@
-import Vuelidate from 'vuelidate';
+import Vuelidate from "vuelidate";
 
-export default async ({ Vue }) => {
+export default ({ Vue }) => {
   Vue.use(Vuelidate);
-}
+};

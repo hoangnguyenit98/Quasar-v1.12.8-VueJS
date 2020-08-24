@@ -112,7 +112,7 @@ import {
   maxLength,
   minLength,
   sameAs,
-  numeric
+  numeric,
 } from "vuelidate/lib/validators";
 import { HTTP_CODES } from "../api/endpoint";
 
@@ -124,8 +124,8 @@ export default {
         name: "",
         email: "",
         password: "",
-        password_confirmation: ""
-      }
+        password_confirmation: "",
+      },
     };
   },
 
@@ -136,50 +136,64 @@ export default {
         this.request
       );
 
-      if (response.code == HTTP_CODES.SUCCESS) {
+      if (response.code == HTTP_CODES.CREATED) {
         this.notifySuccess(response.message);
         return this.redirect({ name: "home" });
       }
+
+      if (
+        response.code == HTTP_CODES.ERROR_VALIDATION &&
+        response.payload.errors.email
+      ) {
+        let message = response.payload.errors.email;
+        let isEmailExits = message.find(
+          (x) => x == "The email has already been taken."
+        );
+        if (isEmailExits) {
+          return this.notifyFaild("Email đã tồn tại");
+        }
+      }
+
       this.notifyFaild(response.message);
     },
 
     redirectLogin() {
       return this.redirect({ name: "login" });
-    }
+    },
   },
 
   validations: {
     request: {
       name: {
         required,
-        maxLength: maxLength(255)
+        maxLength: maxLength(255),
       },
 
       age: {
         required,
-        numeric: value => {
+        numeric: (value) => {
           if (isNaN(value) || value < 0) {
             return false;
           }
           return true;
-        }
+        },
       },
 
       email: {
         required,
         email,
-        maxLength: maxLength(255)
+        maxLength: maxLength(255),
       },
 
       password: {
         required,
-        minLength: minLength(8)
+        minLength: minLength(8),
       },
 
       password_confirmation: {
-        sameAs: sameAs("password")
-      }
-    }
-  }
+        sameAs: sameAs("password"),
+      },
+    },
+  },
 };
 </script>

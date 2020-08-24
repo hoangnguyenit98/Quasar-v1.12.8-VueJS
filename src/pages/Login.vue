@@ -20,8 +20,8 @@
                   outlined
                   label="Email *"
                   :rules="[
-                    val=> $v.request.email.required || 'Vui lòng không để trống trường này.',
-                    val=> $v.request.email.email || 'Email không hợp lệ.',
+                    val => $v.request.email.required || 'Vui lòng không để trống trường này.',
+                    val => $v.request.email.email || 'Email không hợp lệ.'
                   ]"
                 >
                   <template v-slot:append>
@@ -29,14 +29,21 @@
                   </template>
                 </q-input>
                 <q-input
-                  type="password"
                   v-model="request.password"
                   outlined
                   label="Mật khẩu *"
-                  :rules="[val=> $v.request.email.required || 'Vui lòng không để trống trường này.']"
+                  :type="isPwd ? 'password' : 'text'"
+                  :rules="[
+                    val =>
+                      $v.request.email.required || 'Vui lòng không để trống trường này.'
+                  ]"
                 >
                   <template v-slot:append>
-                    <q-icon name="fas fa-key" />
+                    <q-icon
+                      :name="isPwd ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="isPwd = !isPwd"
+                    />
                   </template>
                 </q-input>
 
@@ -79,10 +86,11 @@ export default {
   name: "PageLogin",
   data() {
     return {
+      isPwd: true,
       request: {
         email: "hoangnguyenit98@gmail.com",
-        password: "12345678"
-      }
+        password: "12345678",
+      },
     };
   },
 
@@ -98,20 +106,20 @@ export default {
 
     redirectRegistration() {
       return this.redirect({ name: "registration" });
-    }
+    },
   },
 
   validations: {
     request: {
       email: {
         required,
-        email
+        email,
       },
 
       password: {
-        required
-      }
-    }
-  }
+        required,
+      },
+    },
+  },
 };
 </script>

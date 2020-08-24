@@ -55,9 +55,9 @@
                     mask="###"
                     label="Tuổi *"
                     :rules="[ 
-                    val=> $v.request.$each[index].age.required || 'Vui lòng không để trống trường này.',
-                    val=> $v.request.$each[index].age.numeric || 'Dữ liệu nhập vào không hợp lệ.',
-                  ]"
+                      val=> $v.request.$each[index].age.required || 'Vui lòng không để trống trường này.',
+                      val=> $v.request.$each[index].age.numeric || 'Dữ liệu nhập vào không hợp lệ.',
+                    ]"
                   />
                   <q-input
                     dense
@@ -71,7 +71,7 @@
                       val=> $v.request.$each[index].email.email || 'Email không hợp lệ.',
                       val=> $v.request.$each[index].email.maxLength || 'Dữ liệu nhập vào quá dài.'
                     ]"
-                    error-message="Email này đã tồn tại"
+                    :error-message="isError(index) ? 'Email này đã tồn tại' : null"
                     :error="isError(index)"
                     @input="handleEmailInput(index)"
                   />
